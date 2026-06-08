@@ -5,6 +5,7 @@ local here = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h")
 vim.opt.runtimepath:prepend(here)
 
 for _, candidate in ipairs({
+  here .. "/plenary.nvim",
   here .. "/../plenary.nvim",
   vim.fn.stdpath("data") .. "/lazy/plenary.nvim",
   vim.fn.stdpath("data") .. "/site/pack/vendor/start/plenary.nvim",

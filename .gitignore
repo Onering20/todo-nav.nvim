@@ -1,5 +1,5 @@
-# Test dependencies fetched locally
-/plenary.nvim/
+# Test dependency fetched locally / by CI (file, symlink, or directory)
+/plenary.nvim
 
 # Editor/OS noise
 *.swp
