@@ -1,0 +1,8 @@
+# Test dependencies fetched locally
+/plenary.nvim/
+
+# Editor/OS noise
+*.swp
+.DS_Store
+tags
+doc/tags
