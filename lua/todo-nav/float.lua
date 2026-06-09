@@ -34,6 +34,25 @@ function M.task_range(cfg, buf, target)
   return first, last
 end
 
+--- Parse a vimgrep-format result line ("file:line:col:text") into a filename and
+--- a 1-based line number. A leading Windows drive letter ("C:") is split off
+--- first so its colon is never mistaken for the line-number separator; this keeps
+--- parsing correct for both backslash and forward-slash Windows paths as well as
+--- POSIX paths. Returns `nil, nil` when the line has no parseable location.
+function M.parse_location(line)
+  local drive, rest = string.match(line or "", "^(%a:)(.*)$")
+  if drive == nil then
+    drive, rest = "", line or ""
+  end
+
+  local filename, lnum = string.match(rest, "^(.-):(%d+):")
+  if filename == nil then
+    return nil, nil
+  end
+
+  return drive .. filename, tonumber(lnum)
+end
+
 --- Populate the quickfix list with `results` and jump to the first entry.
 function M.quickfix(results, title)
   vim.fn.setqflist({}, "r", {
@@ -48,14 +67,13 @@ end
 --- the matched line. `q`/`<Esc>` close the float; the float-only mappings and
 --- highlight are cleared on close so the underlying buffer is unaffected.
 function M.float(cfg, results, label, whole_task)
-  local filename, lnum = string.match(results[1], "^(.-):(%d+):")
+  local filename, target = M.parse_location(results[1])
 
   if filename == nil then
     vim.notify("todo-nav: could not parse location for " .. label, vim.log.levels.WARN)
     return
   end
 
-  local target = tonumber(lnum)
   local buf = vim.fn.bufadd(filename)
   vim.fn.bufload(buf)
 
