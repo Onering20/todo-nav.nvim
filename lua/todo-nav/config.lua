@@ -7,6 +7,11 @@ M.defaults = {
   todo_dir = "docs/ai_todos",
   -- Index file inside `todo_dir`. Excluded from task search; used for index search.
   index_file = "INDEX.md",
+  -- Glob patterns (relative to `todo_dir`) excluded from task and file search, so
+  -- navigation lands on a live tracker rather than archived detail. A common
+  -- pattern is an archive sibling that holds completed history while the live
+  -- file keeps only a digest row pointing at it. Set to `{}` to search archives too.
+  exclude_glob = { "*.archive.md" },
   -- Lua pattern matching a tracked identifier under the cursor (no capture group).
   id_pattern = "[A-Z][A-Z0-9]+%-%d%d?%.?%d*",
   -- Lua pattern marking the first line of a top-level item, used to compute the

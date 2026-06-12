@@ -48,6 +48,7 @@ use({ "you/todo-nav.nvim", config = function() require("todo-nav").setup({}) end
 require("todo-nav").setup({
   todo_dir = "docs/ai_todos",          -- tracker dir, relative to project root
   index_file = "INDEX.md",             -- index inside todo_dir
+  exclude_glob = { "*.archive.md" },   -- globs skipped by search; {} to include archives
   id_pattern = "[A-Z][A-Z0-9]+%-%d%d?%.?%d*", -- Lua pattern, no capture group
   task_boundary = "^%d+%.",            -- marks the first line of a top-level item
   highlight = "Visual",                -- highlight group for matched line(s)
@@ -81,6 +82,15 @@ Commands (work without `setup()`): `:TodoNavTask`, `:TodoNavIndex`.
 identifier. So the index search first looks for a direct identifier hit; if there
 is none, it finds the workstream file containing the task and jumps to the index
 line that references that file.
+
+## Archive siblings
+
+A tracker can grow large enough that completed history is split into an archive
+sibling (e.g. `foo.md` keeps a digest row per item, `foo.archive.md` holds the
+full detail). `exclude_glob` defaults to `{ "*.archive.md" }` so task and index
+search skip those siblings and land deterministically on the live tracker; follow
+the digest row's link to reach the archived detail. Set `exclude_glob = {}` to
+search archives too.
 
 ## Provenance
 

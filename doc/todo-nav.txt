@@ -17,6 +17,7 @@ Options (defaults shown): >lua
     {
       todo_dir = "docs/ai_todos",
       index_file = "INDEX.md",
+      exclude_glob = { "*.archive.md" },
       id_pattern = "[A-Z][A-Z0-9]+%-%d%d?%.?%d*",
       task_boundary = "^%d+%.",
       highlight = "Visual",
